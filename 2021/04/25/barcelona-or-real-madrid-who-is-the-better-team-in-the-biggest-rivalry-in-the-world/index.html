@@ -60,7 +60,7 @@
 
   <article class="article">
     
-    <span class="article-duration">1 min read</span>
+    <span class="article-duration">4 min read</span>
     
 
     <h1 class="article-title">Barcelona or Real Madrid? Who is the better team in the biggest rivalry in the world?</h1>
@@ -74,8 +74,86 @@
 <script src="http://zdickey2.github.io/2021/04/25/barcelona-or-real-madrid-who-is-the-better-team-in-the-biggest-rivalry-in-the-world/index_files/header-attrs/header-attrs.js"></script>
 
 
+<p>The world has many rivalries around the world, within countries, within leagues, even within divisions and cities. Everyone might not be into soccer but most people know of Barcelona and Real Madrid. Recently named the two highest valued teams in the world, Barcelona and Real Madrid have a rivalry that is unparalleled to any other rivalry in any other sport.
+In the last 10 years the rivalry has brewed with one of the greatest of all time Cristiano Ronaldo leaving Real Madrid. So I am going to look at which is the better team AND if Ronaldo leaving made an impact within this rivalry.</p>
 <pre class="r"><code>library(reactable)</code></pre>
 <pre><code>## Warning: package &#39;reactable&#39; was built under R version 4.0.5</code></pre>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## Warning: package &#39;tidyverse&#39; was built under R version 4.0.5</code></pre>
+<pre><code>## -- Attaching packages --------------------------------------- tidyverse 1.3.1 --</code></pre>
+<pre><code>## v ggplot2 3.3.3     v purrr   0.3.4
+## v tibble  3.1.0     v dplyr   1.0.5
+## v tidyr   1.1.3     v stringr 1.4.0
+## v readr   1.4.0     v forcats 0.5.1</code></pre>
+<pre><code>## Warning: package &#39;tibble&#39; was built under R version 4.0.5</code></pre>
+<pre><code>## Warning: package &#39;tidyr&#39; was built under R version 4.0.5</code></pre>
+<pre><code>## Warning: package &#39;dplyr&#39; was built under R version 4.0.5</code></pre>
+<pre><code>## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(ggalt)</code></pre>
+<pre><code>## Warning: package &#39;ggalt&#39; was built under R version 4.0.4</code></pre>
+<pre><code>## Registered S3 methods overwritten by &#39;ggalt&#39;:
+##   method                  from   
+##   grid.draw.absoluteGrob  ggplot2
+##   grobHeight.absoluteGrob ggplot2
+##   grobWidth.absoluteGrob  ggplot2
+##   grobX.absoluteGrob      ggplot2
+##   grobY.absoluteGrob      ggplot2</code></pre>
+<p>So for this I would like to look at how Barcelona and Real Madrid play against other teams compared to each other but I would also like to look at how they play against each other which is called “El Clasico.”</p>
+<pre class="r"><code>laliga&lt;- read.csv(&quot;index_files/LaLigaStats - season-0910_csv.csv&quot;)</code></pre>
+<pre class="r"><code>laliga %&gt;% 
+  group_by(HomeTeam) %&gt;% mutate(
+  Totalgoals = (sum(FTHG))) </code></pre>
+<pre><code>## # A tibble: 3,800 x 74
+## # Groups:   HomeTeam [35]
+##    Div   Date  HomeTeam AwayTeam  FTHG  FTAG FTR    HTHG  HTAG HTR      HS    AS
+##    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt;
+##  1 SP1   2009~ Real Ma~ La Coru~     3     2 H         2     1 H        28     9
+##  2 SP1   2009~ Zaragoza Tenerife     1     0 H         0     0 D        17    16
+##  3 SP1   2009~ Almeria  Vallado~     0     0 D         0     0 D        20     7
+##  4 SP1   2009~ Ath Bil~ Espanol      1     0 H         0     0 D        14     8
+##  5 SP1   2009~ Malaga   Ath Mad~     3     0 H         1     0 H         8    16
+##  6 SP1   2009~ Mallorca Xerez        2     0 H         0     0 D        10     7
+##  7 SP1   2009~ Osasuna  Villarr~     1     1 D         1     1 D         7    11
+##  8 SP1   2009~ Santand~ Getafe       1     4 A         1     3 A         4     9
+##  9 SP1   2009~ Valencia Sevilla      2     0 H         0     0 D         8     3
+## 10 SP1   2009~ Barcelo~ Sp Gijon     3     0 H         2     0 H        20     9
+## # ... with 3,790 more rows, and 62 more variables: HST &lt;int&gt;, AST &lt;int&gt;,
+## #   HF &lt;int&gt;, AF &lt;int&gt;, HC &lt;int&gt;, AC &lt;int&gt;, HY &lt;int&gt;, AY &lt;int&gt;, HR &lt;int&gt;,
+## #   AR &lt;int&gt;, B365H &lt;dbl&gt;, B365D &lt;dbl&gt;, B365A &lt;dbl&gt;, BWH &lt;dbl&gt;, BWD &lt;dbl&gt;,
+## #   BWA &lt;dbl&gt;, GBH &lt;dbl&gt;, GBD &lt;dbl&gt;, GBA &lt;dbl&gt;, IWH &lt;dbl&gt;, IWD &lt;dbl&gt;,
+## #   IWA &lt;dbl&gt;, LBH &lt;dbl&gt;, LBD &lt;dbl&gt;, LBA &lt;dbl&gt;, SBH &lt;dbl&gt;, SBD &lt;dbl&gt;,
+## #   SBA &lt;dbl&gt;, WHH &lt;dbl&gt;, WHD &lt;dbl&gt;, WHA &lt;dbl&gt;, SJH &lt;dbl&gt;, SJD &lt;dbl&gt;,
+## #   SJA &lt;dbl&gt;, VCH &lt;dbl&gt;, VCD &lt;dbl&gt;, VCA &lt;dbl&gt;, BSH &lt;dbl&gt;, BSD &lt;dbl&gt;,
+## #   BSA &lt;dbl&gt;, Bb1X2 &lt;dbl&gt;, BbMxH &lt;dbl&gt;, BbAvH &lt;dbl&gt;, BbMxD &lt;dbl&gt;, BbAvD &lt;dbl&gt;,
+## #   BbMxA &lt;dbl&gt;, BbAvA &lt;dbl&gt;, BbOU &lt;dbl&gt;, BbMx.2.5 &lt;dbl&gt;, BbAv.2.5 &lt;dbl&gt;,
+## #   BbMx.2.5.1 &lt;dbl&gt;, BbAv.2.5.1 &lt;dbl&gt;, BbAH &lt;dbl&gt;, BbAHh &lt;dbl&gt;, BbMxAHH &lt;dbl&gt;,
+## #   BbAvAHH &lt;dbl&gt;, BbMxAHA &lt;dbl&gt;, BbAvAHA &lt;dbl&gt;, X &lt;dbl&gt;, X.1 &lt;dbl&gt;, X.2 &lt;dbl&gt;,
+## #   Totalgoals &lt;int&gt;</code></pre>
+<pre class="r"><code>goals &lt;- laliga %&gt;%
+  group_by(HomeTeam) %&gt;% 
+  summarise(
+    Totalgoals = sum(FTHG), 
+    OppGoals = sum(FTAG))</code></pre>
+<pre class="r"><code>ggplot() + 
+  geom_dumbbell(
+    data=goals, 
+    aes(y=reorder(HomeTeam, Totalgoals), x=Totalgoals, xend=OppGoals),
+    size = 1,
+    color = &quot;grey&quot;,
+    colour_x = &quot;green&quot;,
+    colour_xend = &quot;red&quot;) + 
+  theme_minimal()+
+   labs(x=&quot;Total yards per game&quot;, y=&quot;Points per game&quot;, title=&quot;Barcelona overwhelming goal scoring&quot;, subtitle=&quot;Barcelona leads in the last 10 years in Goals scored and goals conceded..&quot;, caption=&quot;Source: LaLiga Santanger | By Zachariah Dickey&quot;) + 
+  theme_minimal() + 
+  theme(
+    plot.title = element_text(size = 16, face = &quot;bold&quot;),
+    axis.title = element_text(size = 8), 
+    plot.subtitle = element_text(size=10), 
+    panel.grid.minor = element_blank()
+    ) </code></pre>
+<p><img src="http://zdickey2.github.io/2021/04/25/barcelona-or-real-madrid-who-is-the-better-team-in-the-biggest-rivalry-in-the-world/index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 
     </div>
   </article>
