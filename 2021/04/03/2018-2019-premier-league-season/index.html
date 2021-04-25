@@ -10,7 +10,7 @@
 <meta property="og:title" content="2018-2019 Premier League Season - Does the 2018-2019 season really show the best/worst teams?">
 
 
-  <link href='/favicon.ico' rel='icon' type='image/x-icon'/>
+  <link href='http://zdickey2.github.io/favicon.ico' rel='icon' type='image/x-icon'/>
 
 
 
@@ -71,7 +71,7 @@
 
     <div class="article-content">
       
-<script src="/2021/04/03/2018-2019-premier-league-season/index_files/header-attrs/header-attrs.js"></script>
+<script src="http://zdickey2.github.io/2021/04/03/2018-2019-premier-league-season/index_files/header-attrs/header-attrs.js"></script>
 
 
 <p>In this blog I am going to be looking at the last Premier League Season without any stoppage/controversy and look at which team/teams were the best and worst at home and away matches. The 2018-2019 Premier League season came down to the last game of the season with Manchester City needing a victory to win the title, which they did on Matchday 38. My personal favorite team Liverpool lost only one game and did not win, so I wanted to see if the table results actually truly represents which teams preformed the best.</p>
@@ -141,7 +141,7 @@
     data=differential, 
     aes(y=HomeTeam, x=HomeGoals, xend=AwayGoals)
   )</code></pre>
-<p><img src="/2021/04/03/2018-2019-premier-league-season/index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="http://zdickey2.github.io/2021/04/03/2018-2019-premier-league-season/index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <pre class="r"><code>ggplot() + 
   geom_dumbbell(
     data=differential, 
@@ -149,7 +149,7 @@
     colour = &quot;grey&quot;,
     colour_x = &quot;green&quot;,
     colour_xend = &quot;red&quot;)</code></pre>
-<p><img src="/2021/04/03/2018-2019-premier-league-season/index_files/figure-html/unnamed-chunk-6-1.png" width="672" />
+<p><img src="http://zdickey2.github.io/2021/04/03/2018-2019-premier-league-season/index_files/figure-html/unnamed-chunk-6-1.png" width="672" />
 This chart is not only ordered to show which team scored the most Home goals but it also shows the difference of goals scored vs. goals conceded while that team is playing at home.</p>
 <pre class="r"><code>ggplot() + 
   geom_dumbbell(
@@ -159,7 +159,7 @@ This chart is not only ordered to show which team scored the most Home goals but
     colour = &quot;grey&quot;,
     colour_x = &quot;green&quot;,
     colour_xend = &quot;red&quot;)</code></pre>
-<p><img src="/2021/04/03/2018-2019-premier-league-season/index_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="http://zdickey2.github.io/2021/04/03/2018-2019-premier-league-season/index_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <pre class="r"><code>differentialAway &lt;- Prem %&gt;%
   group_by(AwayTeam) %&gt;% 
   summarise(
@@ -187,7 +187,7 @@ This chart is not only ordered to show which team scored the most Home goals but
     plot.subtitle = element_text(size=10), 
     panel.grid.minor = element_blank()
     )</code></pre>
-<p><img src="/2021/04/03/2018-2019-premier-league-season/index_files/figure-html/unnamed-chunk-9-1.png" width="672" />
+<p><img src="http://zdickey2.github.io/2021/04/03/2018-2019-premier-league-season/index_files/figure-html/unnamed-chunk-9-1.png" width="672" />
 The green represents each teams goals on the road while the red represents the goals conceded by each team on the road.
 If you compare the first chart and the second chart you can tel that teams really do score a lot less goals on the road and do give up more goals.</p>
 <p>Now that we’ve looked at goals, lets look at the amount of chances that each team has made for themselves while at home. There is a stat in soccer called Shots on Target. This counts any shot that is in the direction of anywhere inside the posts and crossbar including the posts and crossbar.</p>
@@ -242,10 +242,10 @@ If you compare the first chart and the second chart you can tel that teams reall
   select(HomeTeam, `HomeShotsTarget`)</code></pre>
 <pre><code>## Selecting by AwayShotsTarget</code></pre>
 <pre class="r"><code>ggplot(TargetsTop, aes(x=HomeTeam)) + geom_bar()</code></pre>
-<p><img src="/2021/04/03/2018-2019-premier-league-season/index_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p><img src="http://zdickey2.github.io/2021/04/03/2018-2019-premier-league-season/index_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 <pre class="r"><code>ggplot() + 
   geom_bar(data=TargetsTop, aes(x=reorder(HomeTeam, `HomeShotsTarget`), weight=`HomeShotsTarget`))</code></pre>
-<p><img src="/2021/04/03/2018-2019-premier-league-season/index_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p><img src="http://zdickey2.github.io/2021/04/03/2018-2019-premier-league-season/index_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 <pre class="r"><code>ggplot() + 
   geom_bar(data=TargetsTop, aes(x=reorder(HomeTeam, `HomeShotsTarget`), weight=`HomeShotsTarget`)) +
 scale_y_continuous(labels=comma) + 
@@ -263,7 +263,7 @@ scale_y_continuous(labels=comma) +
     panel.grid.minor = element_blank()
     ) +
   coord_flip()</code></pre>
-<p><img src="/2021/04/03/2018-2019-premier-league-season/index_files/figure-html/unnamed-chunk-16-1.png" width="672" />
+<p><img src="http://zdickey2.github.io/2021/04/03/2018-2019-premier-league-season/index_files/figure-html/unnamed-chunk-16-1.png" width="672" />
 With this we can see that the chances created by teams does not exactly line up with rankings from this season but it is pretty close. This shows that it is not only about making chances but also finishing. Teams like Fulham are middle of the table on this chart with 86 shots on Target throughout the year at home, however, they finished 19th out of 20 in overall rankings. So Fulham shoots a lot on target they just do not finish and score many goals.You can also out Southampton into this as well because they finished 16th on the overall rankings but had the 8th most shots on target. Their problem is either finishing or terrible defense.</p>
 <p>You can also look at the other side of the spectrum and see the Everton is in the bottom half of this chart. However they did finish in 8th place this season. So this shows that Everton might not shoot a lot to get their good results but they either score few goals and allow even fewer goals or they can score and average amount and they hardly miss.</p>
 <p>So now lets look at how defense can come into affect to help really prove how a team performs.</p>
@@ -302,7 +302,7 @@ group_by(HomeTeam) %&gt;%
     panel.grid.minor = element_blank()
     )</code></pre>
 <pre><code>## Warning: Ignoring unknown aesthetics: label</code></pre>
-<p><img src="/2021/04/03/2018-2019-premier-league-season/index_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p><img src="http://zdickey2.github.io/2021/04/03/2018-2019-premier-league-season/index_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
 <p>As you can see from this chart, the top teams in the league are closer to the bottom right corner. They have the highest percentage of shots on target vs. total shots and they allow the lowest amount of shots on target vs. total shots to opponents.</p>
 <p>In conclusion, when looking back at the 2018-2019 season. We can see that there are a few teams that are surprising based on these charts, including Fulham, Everton</p>
 

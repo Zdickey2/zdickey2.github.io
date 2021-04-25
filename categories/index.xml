@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on Does the 2018-2019 season really show the best/worst teams?</title>
-    <link>/categories/</link>
+    <link>http://zdickey2.github.io/categories/</link>
     <description>Recent content in Categories on Does the 2018-2019 season really show the best/worst teams?</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 03 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 03 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="http://zdickey2.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Soccer</title>
-      <link>/categories/soccer/</link>
+      <link>http://zdickey2.github.io/categories/soccer/</link>
       <pubDate>Sat, 03 Apr 2021 00:00:00 +0000</pubDate>
       
-      <guid>/categories/soccer/</guid>
+      <guid>http://zdickey2.github.io/categories/soccer/</guid>
       <description></description>
     </item>
     
