@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.82.1" />
+
+
+<title>2018-2019 Premier League Season - Does the 2018-2019 season really show the best/worst teams?</title>
+<meta property="og:title" content="2018-2019 Premier League Season - Does the 2018-2019 season really show the best/worst teams?">
+
+
+  <link href='/favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/about/">About</a></li>
+    
+    <li><a href="https://zachdickey.github.io">Website</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">8 min read</span>
+    
+
+    <h1 class="article-title">2018-2019 Premier League Season</h1>
+
+    
+    <span class="article-date">2021-04-03</span>
+    
+
+    <div class="article-content">
+      
+<script src="/2021/04/03/2018-2019-premier-league-season/index_files/header-attrs/header-attrs.js"></script>
+
+
+<p>In this blog I am going to be looking at the last Premier League Season without any stoppage/controversy and look at which team/teams were the best and worst at home and away matches. The 2018-2019 Premier League season came down to the last game of the season with Manchester City needing a victory to win the title, which they did on Matchday 38. My personal favorite team Liverpool lost only one game and did not win, so I wanted to see if the table results actually truly represents which teams preformed the best.</p>
+<p>With this first set of code I wanted to look at goal differential because you would normally expect the goal differential to be in a descending order that lines up with the end of season rankings.</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## -- Attaching packages --------------------------------------- tidyverse 1.3.0 --</code></pre>
+<pre><code>## v ggplot2 3.3.3     v purrr   0.3.4
+## v tibble  3.0.5     v dplyr   1.0.3
+## v tidyr   1.1.2     v stringr 1.4.0
+## v readr   1.4.0     v forcats 0.5.1</code></pre>
+<pre><code>## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(ggalt)</code></pre>
+<pre><code>## Warning: package &#39;ggalt&#39; was built under R version 4.0.4</code></pre>
+<pre><code>## Registered S3 methods overwritten by &#39;ggalt&#39;:
+##   method                  from   
+##   grid.draw.absoluteGrob  ggplot2
+##   grobHeight.absoluteGrob ggplot2
+##   grobWidth.absoluteGrob  ggplot2
+##   grobX.absoluteGrob      ggplot2
+##   grobY.absoluteGrob      ggplot2</code></pre>
+<p>This code uploads our Excel Spreadsheet so that we can make charts to visualize the stats.</p>
+<pre class="r"><code>Prem &lt;- read_csv(&quot;index_files/PremierLeague.csv&quot;)</code></pre>
+<pre><code>## 
+## -- Column specification --------------------------------------------------------
+## cols(
+##   .default = col_double(),
+##   Div = col_character(),
+##   Date = col_character(),
+##   HomeTeam = col_character(),
+##   AwayTeam = col_character(),
+##   FTR = col_character(),
+##   HTR = col_character(),
+##   Referee = col_character()
+## )
+## i Use `spec()` for the full column specifications.</code></pre>
+<pre class="r"><code>head(Prem)</code></pre>
+<pre><code>## # A tibble: 6 x 62
+##   Div   Date  HomeTeam AwayTeam  FTHG  FTAG FTR    HTHG  HTAG HTR   Referee
+##   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  
+## 1 E0    10/0~ Man Uni~ Leicest~     2     1 H         1     0 H     A Marr~
+## 2 E0    11/0~ Bournem~ Cardiff      2     0 H         1     0 H     K Frie~
+## 3 E0    11/0~ Fulham   Crystal~     0     2 A         0     1 A     M Dean 
+## 4 E0    11/0~ Hudders~ Chelsea      0     3 A         0     2 A     C Kava~
+## 5 E0    11/0~ Newcast~ Tottenh~     1     2 A         1     2 A     M Atki~
+## 6 E0    11/0~ Watford  Brighton     2     0 H         1     0 H     J Moss 
+## # ... with 51 more variables: HS &lt;dbl&gt;, AS &lt;dbl&gt;, HST &lt;dbl&gt;, AST &lt;dbl&gt;,
+## #   HF &lt;dbl&gt;, AF &lt;dbl&gt;, HC &lt;dbl&gt;, AC &lt;dbl&gt;, HY &lt;dbl&gt;, AY &lt;dbl&gt;, HR &lt;dbl&gt;,
+## #   AR &lt;dbl&gt;, B365H &lt;dbl&gt;, B365D &lt;dbl&gt;, B365A &lt;dbl&gt;, BWH &lt;dbl&gt;, BWD &lt;dbl&gt;,
+## #   BWA &lt;dbl&gt;, IWH &lt;dbl&gt;, IWD &lt;dbl&gt;, IWA &lt;dbl&gt;, PSH &lt;dbl&gt;, PSD &lt;dbl&gt;,
+## #   PSA &lt;dbl&gt;, WHH &lt;dbl&gt;, WHD &lt;dbl&gt;, WHA &lt;dbl&gt;, VCH &lt;dbl&gt;, VCD &lt;dbl&gt;,
+## #   VCA &lt;dbl&gt;, Bb1X2 &lt;dbl&gt;, BbMxH &lt;dbl&gt;, BbAvH &lt;dbl&gt;, BbMxD &lt;dbl&gt;, BbAvD &lt;dbl&gt;,
+## #   BbMxA &lt;dbl&gt;, BbAvA &lt;dbl&gt;, BbOU &lt;dbl&gt;, `BbMx&gt;2.5` &lt;dbl&gt;, `BbAv&gt;2.5` &lt;dbl&gt;,
+## #   `BbMx&lt;2.5` &lt;dbl&gt;, `BbAv&lt;2.5` &lt;dbl&gt;, BbAH &lt;dbl&gt;, BbAHh &lt;dbl&gt;, BbMxAHH &lt;dbl&gt;,
+## #   BbAvAHH &lt;dbl&gt;, BbMxAHA &lt;dbl&gt;, BbAvAHA &lt;dbl&gt;, PSCH &lt;dbl&gt;, PSCD &lt;dbl&gt;,
+## #   PSCA &lt;dbl&gt;</code></pre>
+<p>For this first chart I am going to do a separate chart for Home and Away Teams and only count it as one of my three charts.</p>
+<p>To make it easier to understand I will change some of the column titles to something more recognizable.</p>
+<pre class="r"><code>differential &lt;- Prem %&gt;%
+  group_by(HomeTeam) %&gt;% 
+  summarise(
+    HomeGoals = sum(FTHG), 
+    AwayGoals = sum(FTAG))</code></pre>
+<pre class="r"><code>ggplot() + 
+  geom_dumbbell(
+    data=differential, 
+    aes(y=HomeTeam, x=HomeGoals, xend=AwayGoals)
+  )</code></pre>
+<p><img src="/2021/04/03/2018-2019-premier-league-season/index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<pre class="r"><code>ggplot() + 
+  geom_dumbbell(
+    data=differential, 
+    aes(y=HomeTeam, x=HomeGoals, xend=AwayGoals),
+    colour = &quot;grey&quot;,
+    colour_x = &quot;green&quot;,
+    colour_xend = &quot;red&quot;)</code></pre>
+<p><img src="/2021/04/03/2018-2019-premier-league-season/index_files/figure-html/unnamed-chunk-6-1.png" width="672" />
+This chart is not only ordered to show which team scored the most Home goals but it also shows the difference of goals scored vs. goals conceded while that team is playing at home.</p>
+<pre class="r"><code>ggplot() + 
+  geom_dumbbell(
+    data=differential, 
+    aes(y=reorder(HomeTeam, HomeGoals), x=HomeGoals, xend=AwayGoals),
+    size = 1.5,
+    colour = &quot;grey&quot;,
+    colour_x = &quot;green&quot;,
+    colour_xend = &quot;red&quot;)</code></pre>
+<p><img src="/2021/04/03/2018-2019-premier-league-season/index_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<pre class="r"><code>differentialAway &lt;- Prem %&gt;%
+  group_by(AwayTeam) %&gt;% 
+  summarise(
+    HomeGoals = sum(FTHG), 
+    AwayGoals = sum(FTAG))</code></pre>
+<p>This is how teams do when they are on the road. As you can see only five teams have a positive goals to goals conceded on the road. This truly shows how big of an advantage it is to play at home. This also shows how important and difficult it is to get a win on the road. As you can see the top two on this chart, Manchester City and Liverpool, are also the two who finished at the top of the table at the end of the season.</p>
+<pre class="r"><code>ggplot() + 
+  geom_dumbbell(
+    data=differentialAway, 
+    aes(y=reorder(AwayTeam, AwayGoals), x=AwayGoals, xend=HomeGoals),
+    size = 1.5,
+    colour = &quot;grey&quot;,
+    colour_x = &quot;green&quot;,
+    colour_xend = &quot;red&quot;) +
+  labs(
+    title=&quot;Goal Differentials on the Road&quot;, 
+    x=&quot;Goals vs. Goals Conceded on the Road&quot; , 
+    y=&quot;Away Team&quot;,
+    subtitle=&quot;Top teams in the League are scoring more on the road&quot;,
+    caption=&quot;Source: EPL | By Zach Dickey&quot;) + 
+  theme_grey() + 
+   theme(
+    plot.title = element_text(size = 16, face = &quot;bold&quot;),
+    axis.title = element_text(size =10 ), 
+    plot.subtitle = element_text(size=10), 
+    panel.grid.minor = element_blank()
+    )</code></pre>
+<p><img src="/2021/04/03/2018-2019-premier-league-season/index_files/figure-html/unnamed-chunk-9-1.png" width="672" />
+The green represents each teams goals on the road while the red represents the goals conceded by each team on the road.
+If you compare the first chart and the second chart you can tel that teams really do score a lot less goals on the road and do give up more goals.</p>
+<p>Now that we’ve looked at goals, lets look at the amount of chances that each team has made for themselves while at home. There is a stat in soccer called Shots on Target. This counts any shot that is in the direction of anywhere inside the posts and crossbar including the posts and crossbar.</p>
+<pre class="r"><code>library(scales)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;scales&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     discard</code></pre>
+<pre><code>## The following object is masked from &#39;package:readr&#39;:
+## 
+##     col_factor</code></pre>
+<pre class="r"><code>library(ggrepel)</code></pre>
+<pre><code>## Warning: package &#39;ggrepel&#39; was built under R version 4.0.4</code></pre>
+<pre class="r"><code>ShotsOnTarget &lt;- Prem %&gt;%
+  group_by(HomeTeam) %&gt;% 
+  summarise(
+    HomeShotsTarget = sum(HST), 
+    AwayShotsTarget = sum(AST))</code></pre>
+<p>Now lets take a a simple table version of the Shots on Target for each team thourghout the season.</p>
+<pre class="r"><code>ShotsOnTarget %&gt;% 
+  arrange(desc(`HomeShotsTarget`)) %&gt;% 
+  top_n(20) %&gt;% 
+  select(HomeTeam, `HomeShotsTarget`)</code></pre>
+<pre><code>## Selecting by AwayShotsTarget</code></pre>
+<pre><code>## # A tibble: 20 x 2
+##    HomeTeam       HomeShotsTarget
+##    &lt;chr&gt;                    &lt;dbl&gt;
+##  1 Man City                   148
+##  2 Liverpool                  126
+##  3 Man United                 126
+##  4 Chelsea                    118
+##  5 Tottenham                  105
+##  6 Leicester                   99
+##  7 Arsenal                     96
+##  8 Southampton                 89
+##  9 West Ham                    88
+## 10 Fulham                      86
+## 11 Everton                     85
+## 12 Wolves                      85
+## 13 Watford                     83
+## 14 Bournemouth                 82
+## 15 Newcastle                   80
+## 16 Crystal Palace              76
+## 17 Cardiff                     68
+## 18 Burnley                     66
+## 19 Huddersfield                57
+## 20 Brighton                    53</code></pre>
+<pre class="r"><code>TargetsTop&lt;- ShotsOnTarget %&gt;% 
+  arrange(desc(`HomeShotsTarget`)) %&gt;% 
+  top_n(20) %&gt;% 
+  select(HomeTeam, `HomeShotsTarget`)</code></pre>
+<pre><code>## Selecting by AwayShotsTarget</code></pre>
+<pre class="r"><code>ggplot(TargetsTop, aes(x=HomeTeam)) + geom_bar()</code></pre>
+<p><img src="/2021/04/03/2018-2019-premier-league-season/index_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<pre class="r"><code>ggplot() + 
+  geom_bar(data=TargetsTop, aes(x=reorder(HomeTeam, `HomeShotsTarget`), weight=`HomeShotsTarget`))</code></pre>
+<p><img src="/2021/04/03/2018-2019-premier-league-season/index_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<pre class="r"><code>ggplot() + 
+  geom_bar(data=TargetsTop, aes(x=reorder(HomeTeam, `HomeShotsTarget`), weight=`HomeShotsTarget`)) +
+scale_y_continuous(labels=comma) + 
+  labs(
+    title=&quot;2018-2019 Top 10 Shots on Target Teams&quot;, 
+    x=&quot;Home Team&quot;, 
+    y=&quot;Shots on Target as Home Team&quot;,
+    subtitle=&quot;Top teams in the league have the most shots on target but the worst teams are spread around the table&quot;,
+    caption=&quot;Source: EPL | By Zach Dickey&quot;) + 
+  theme_linedraw() + 
+   theme(
+    plot.title = element_text(size = 16, face = &quot;bold&quot;),
+    axis.title = element_text(size =10 ), 
+    plot.subtitle = element_text(size=9), 
+    panel.grid.minor = element_blank()
+    ) +
+  coord_flip()</code></pre>
+<p><img src="/2021/04/03/2018-2019-premier-league-season/index_files/figure-html/unnamed-chunk-16-1.png" width="672" />
+With this we can see that the chances created by teams does not exactly line up with rankings from this season but it is pretty close. This shows that it is not only about making chances but also finishing. Teams like Fulham are middle of the table on this chart with 86 shots on Target throughout the year at home, however, they finished 19th out of 20 in overall rankings. So Fulham shoots a lot on target they just do not finish and score many goals.You can also out Southampton into this as well because they finished 16th on the overall rankings but had the 8th most shots on target. Their problem is either finishing or terrible defense.</p>
+<p>You can also look at the other side of the spectrum and see the Everton is in the bottom half of this chart. However they did finish in 8th place this season. So this shows that Everton might not shoot a lot to get their good results but they either score few goals and allow even fewer goals or they can score and average amount and they hardly miss.</p>
+<p>So now lets look at how defense can come into affect to help really prove how a team performs.</p>
+<pre class="r"><code>Prem %&gt;% 
+group_by(HomeTeam) %&gt;% 
+  summarise(
+    TotalShots = sum(HS), 
+    TotalTargets = sum(HST), 
+    OppShots = sum(AS), 
+    OppTargets = sum(AST), 
+    TotalGoals = sum(FTHG)) %&gt;% 
+  mutate(
+    TotalTPS = TotalTargets/TotalShots, 
+    OppTPS = OppTargets/OppShots) -&gt; tps</code></pre>
+<p>This next chart will show you not only how these teams compare not only with the chances they created but how they also played defensively against teams depending on the opponents Shots on target percentage.</p>
+<pre class="r"><code>ggplot() + 
+  geom_point(
+    data=tps, 
+    aes(x=TotalTPS, y=OppTPS, size=TotalGoals,label=HomeTeam),
+    alpha = .3) + 
+  scale_size(range = c(0, 10), name=&quot;Goals&quot;)+
+   geom_text_repel(
+    data=tps, 
+    aes(x=TotalTPS, y=OppTPS, label=HomeTeam))+
+      labs(
+    title=&quot;Offensive vs. Defensive Shots on Target PCT.&quot;, 
+    x=&quot;Team Shots on Target %&quot;, 
+    y=&quot;Opp. Shots on Target %&quot;,
+    subtitle=&quot;Top teams in the league score the most, have the higher shot on target PCT and allow the least defensively&quot;,
+    caption=&quot;Source: EPL | By Zach Dickey&quot;) + 
+  theme_bw() + 
+   theme(
+    plot.title = element_text(size = 16, face = &quot;bold&quot;),
+    axis.title = element_text(size =12), 
+    plot.subtitle = element_text(size=10), 
+    panel.grid.minor = element_blank()
+    )</code></pre>
+<pre><code>## Warning: Ignoring unknown aesthetics: label</code></pre>
+<p><img src="/2021/04/03/2018-2019-premier-league-season/index_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p>As you can see from this chart, the top teams in the league are closer to the bottom right corner. They have the highest percentage of shots on target vs. total shots and they allow the lowest amount of shots on target vs. total shots to opponents.</p>
+<p>In conclusion, when looking back at the 2018-2019 season. We can see that there are a few teams that are surprising based on these charts, including Fulham, Everton</p>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png" alt="Img link to Hugo website" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+
+    
+  </body>
+</html>
+
