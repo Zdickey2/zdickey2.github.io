@@ -60,7 +60,7 @@
 
   <article class="article">
     
-    <span class="article-duration">4 min read</span>
+    <span class="article-duration">7 min read</span>
     
 
     <h1 class="article-title">Barcelona or Real Madrid? Who is the better team in the biggest rivalry in the world?</h1>
@@ -75,7 +75,7 @@
 
 
 <p>The world has many rivalries around the world, within countries, within leagues, even within divisions and cities. Everyone might not be into soccer but most people know of Barcelona and Real Madrid. Recently named the two highest valued teams in the world, Barcelona and Real Madrid have a rivalry that is unparalleled to any other rivalry in any other sport.
-In the last 10 years the rivalry has brewed with one of the greatest of all time Cristiano Ronaldo leaving Real Madrid. So I am going to look at which is the better team AND if Ronaldo leaving made an impact within this rivalry.</p>
+In the last 10 years the rivalry has brewed with many players joining and leaving including one of the greatest, Cristiano Ronaldo leaving in 2018.</p>
 <pre class="r"><code>library(reactable)</code></pre>
 <pre><code>## Warning: package &#39;reactable&#39; was built under R version 4.0.5</code></pre>
 <pre class="r"><code>library(tidyverse)</code></pre>
@@ -100,8 +100,11 @@ In the last 10 years the rivalry has brewed with one of the greatest of all time
 ##   grobWidth.absoluteGrob  ggplot2
 ##   grobX.absoluteGrob      ggplot2
 ##   grobY.absoluteGrob      ggplot2</code></pre>
+<pre class="r"><code>library(ggbump)</code></pre>
+<pre><code>## Warning: package &#39;ggbump&#39; was built under R version 4.0.4</code></pre>
 <p>So for this I would like to look at how Barcelona and Real Madrid play against other teams compared to each other but I would also like to look at how they play against each other which is called “El Clasico.”</p>
 <pre class="r"><code>laliga&lt;- read.csv(&quot;index_files/LaLigaStats - season-0910_csv.csv&quot;)</code></pre>
+<p>So to truly show why the rivalry is so big we need to show how big these teams are compared to the rest of the league.</p>
 <pre class="r"><code>laliga %&gt;% 
   group_by(HomeTeam) %&gt;% mutate(
   Totalgoals = (sum(FTHG))) </code></pre>
@@ -109,16 +112,16 @@ In the last 10 years the rivalry has brewed with one of the greatest of all time
 ## # Groups:   HomeTeam [35]
 ##    Div   Date  HomeTeam AwayTeam  FTHG  FTAG FTR    HTHG  HTAG HTR      HS    AS
 ##    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt;
-##  1 SP1   2009~ Real Ma~ La Coru~     3     2 H         2     1 H        28     9
-##  2 SP1   2009~ Zaragoza Tenerife     1     0 H         0     0 D        17    16
-##  3 SP1   2009~ Almeria  Vallado~     0     0 D         0     0 D        20     7
-##  4 SP1   2009~ Ath Bil~ Espanol      1     0 H         0     0 D        14     8
-##  5 SP1   2009~ Malaga   Ath Mad~     3     0 H         1     0 H         8    16
-##  6 SP1   2009~ Mallorca Xerez        2     0 H         0     0 D        10     7
-##  7 SP1   2009~ Osasuna  Villarr~     1     1 D         1     1 D         7    11
-##  8 SP1   2009~ Santand~ Getafe       1     4 A         1     3 A         4     9
-##  9 SP1   2009~ Valencia Sevilla      2     0 H         0     0 D         8     3
-## 10 SP1   2009~ Barcelo~ Sp Gijon     3     0 H         2     0 H        20     9
+##  1 EC    9     Barcelo~ Real Ma~     1     0 H         0     0 D         9    16
+##  2 EC    12    Barcelo~ Real Ma~     2     2 D         1     1 D        10    10
+##  3 EC    16    Barcelo~ Real Ma~     1     2 A         0     0 D        14    14
+##  4 EC    16    Barcelo~ Real Ma~     1     1 D         0     0 D        11    14
+##  5 EC    18    Barcelo~ Real Ma~     2     2 D         1     1 D        11    17
+##  6 EC    12    Barcelo~ Real Ma~     1     2 A         0     1 A        14    14
+##  7 EC    15    Barcelo~ Real Ma~     2     1 H         1     1 D        17    13
+##  8 EC    13    Barcelo~ Real Ma~     2     1 H         1     0 H        12    10
+##  9 EC    18    Barcelo~ Real Ma~     5     1 H         2     0 H        13    15
+## 10 EC    10    Barcelo~ Real Ma~     5     0 H         2     0 H        15     5
 ## # ... with 3,790 more rows, and 62 more variables: HST &lt;int&gt;, AST &lt;int&gt;,
 ## #   HF &lt;int&gt;, AF &lt;int&gt;, HC &lt;int&gt;, AC &lt;int&gt;, HY &lt;int&gt;, AY &lt;int&gt;, HR &lt;int&gt;,
 ## #   AR &lt;int&gt;, B365H &lt;dbl&gt;, B365D &lt;dbl&gt;, B365A &lt;dbl&gt;, BWH &lt;dbl&gt;, BWD &lt;dbl&gt;,
@@ -131,11 +134,13 @@ In the last 10 years the rivalry has brewed with one of the greatest of all time
 ## #   BbMx.2.5.1 &lt;dbl&gt;, BbAv.2.5.1 &lt;dbl&gt;, BbAH &lt;dbl&gt;, BbAHh &lt;dbl&gt;, BbMxAHH &lt;dbl&gt;,
 ## #   BbAvAHH &lt;dbl&gt;, BbMxAHA &lt;dbl&gt;, BbAvAHA &lt;dbl&gt;, X &lt;dbl&gt;, X.1 &lt;dbl&gt;, X.2 &lt;dbl&gt;,
 ## #   Totalgoals &lt;int&gt;</code></pre>
+<p>As the years go by different teams get promoted and demoted to and from the second division in Spain. So to not cram our table with too many teams we will only look at teams who over the years have scored at least 150 goals.</p>
 <pre class="r"><code>goals &lt;- laliga %&gt;%
   group_by(HomeTeam) %&gt;% 
   summarise(
     Totalgoals = sum(FTHG), 
-    OppGoals = sum(FTAG))</code></pre>
+    OppGoals = sum(FTAG)) %&gt;% 
+  filter(Totalgoals &gt; 150)</code></pre>
 <pre class="r"><code>ggplot() + 
   geom_dumbbell(
     data=goals, 
@@ -145,7 +150,7 @@ In the last 10 years the rivalry has brewed with one of the greatest of all time
     colour_x = &quot;green&quot;,
     colour_xend = &quot;red&quot;) + 
   theme_minimal()+
-   labs(x=&quot;Total yards per game&quot;, y=&quot;Points per game&quot;, title=&quot;Barcelona overwhelming goal scoring&quot;, subtitle=&quot;Barcelona leads in the last 10 years in Goals scored and goals conceded..&quot;, caption=&quot;Source: LaLiga Santanger | By Zachariah Dickey&quot;) + 
+   labs(x=&quot;Total goals scored vs. goals conceded&quot;, y=&quot;Teams&quot;, title=&quot;Barcelona overwhelming goal scoring&quot;, subtitle=&quot;Barcelona leads in the last 10 years in Goals scored and goals conceded..&quot;, caption=&quot;Source: LaLiga Santanger | By Zachariah Dickey&quot;) + 
   theme_minimal() + 
   theme(
     plot.title = element_text(size = 16, face = &quot;bold&quot;),
@@ -153,7 +158,88 @@ In the last 10 years the rivalry has brewed with one of the greatest of all time
     plot.subtitle = element_text(size=10), 
     panel.grid.minor = element_blank()
     ) </code></pre>
-<p><img src="http://zdickey2.github.io/2021/04/25/barcelona-or-real-madrid-who-is-the-better-team-in-the-biggest-rivalry-in-the-world/index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="http://zdickey2.github.io/2021/04/25/barcelona-or-real-madrid-who-is-the-better-team-in-the-biggest-rivalry-in-the-world/index_files/figure-html/unnamed-chunk-5-1.png" width="672" />
+As you could tell by the table Barcelona leads the way against Real Madrid in the goals scored and also in goals conceded. Obviously the determining factors is wins is goals scored so that is why this is the main focus.</p>
+<pre class="r"><code>Clasico &lt;- read_csv(&quot;index_files/LaLigaStats - season-0910_csv.csv&quot;)</code></pre>
+<pre><code>## Warning: Missing column names filled in: &#39;X71&#39; [71], &#39;X72&#39; [72], &#39;X73&#39; [73]</code></pre>
+<pre><code>## 
+## -- Column specification --------------------------------------------------------
+## cols(
+##   .default = col_double(),
+##   Div = col_character(),
+##   Date = col_character(),
+##   HomeTeam = col_character(),
+##   AwayTeam = col_character(),
+##   FTR = col_character(),
+##   HTR = col_character()
+## )
+## i Use `spec()` for the full column specifications.</code></pre>
+<pre class="r"><code>library(waffle)</code></pre>
+<pre><code>## Warning: package &#39;waffle&#39; was built under R version 4.0.5</code></pre>
+<pre class="r"><code>bar&lt;- c(&quot;Goals&quot;=45, &quot;Shots&quot;=258)
+rm &lt;- c(&quot;Goals&quot;=24, &quot;Shots&quot;=285)</code></pre>
+<pre class="r"><code> iron(
+   waffle(
+        bar, 
+        rows = 10, 
+        title=&quot;Barcelona&#39;s offense&quot;, 
+        xlab=&quot;1 square = 1 goal/shot&quot;, 
+        colors = c(&quot;black&quot;, &quot;red&quot;)
+),
+waffle(
+        rm, 
+        rows = 10, 
+        title=&quot;Real Madrid&#39;s Offense&quot;, 
+        xlab=&quot;1 square = 1 goal/shot&quot;, 
+        colors = c(&quot;black&quot;, &quot;red&quot;)
+))</code></pre>
+<p><img src="http://zdickey2.github.io/2021/04/25/barcelona-or-real-madrid-who-is-the-better-team-in-the-biggest-rivalry-in-the-world/index_files/figure-html/unnamed-chunk-9-1.png" width="672" />
+As you can tell from the chart, Barcelona is a lot more clinical in the games over the last 10 seasons against Real Madrid. Barcelona has more goals and also less shots. The shots stats is also shots in general not shots on target so it really shows that it is important to pick your shots.</p>
+<p>So now to take a lot more stats into affect. Lets look at not only how they do offensively but also defensively.
+Finding a Zscore is a great way to look at who the best teams are because it looks at how far a team is from the average in a certain or multiple stats.</p>
+<pre class="r"><code>teamquality &lt;- laliga %&gt;% 
+  group_by(HomeTeam) %&gt;% 
+  select(HomeTeam, FTHG, FTAG, HS, AS, HST, AST)</code></pre>
+<p>The biggest stats is soccer is goals (obviously), Shots and shots on target because the amounts of shots and shots on target because it shows how many Opportunities you give yourself. If you think about it though it does give you an idea of other stats; more shots means more possession, which means less Opp. possession, etc.</p>
+<pre class="r"><code>teamtotals &lt;- teamquality %&gt;% 
+  group_by(HomeTeam) %&gt;% 
+  summarise(
+    Goalaverage = mean(FTHG), 
+    ShotAvg = mean(HS), 
+    OppGoalAvg = mean(FTAG),
+    OppShotAvg = mean(AS),
+    STavg = mean(HST),
+    OppSTavg = mean(AST)
+    ) </code></pre>
+<pre class="r"><code>teamzscore &lt;- teamtotals %&gt;% 
+  mutate(
+    Goalzscore = as.numeric(scale(Goalaverage, center = TRUE, scale = TRUE)),
+    ShotZscore = as.numeric(scale(ShotAvg, center = TRUE, scale = TRUE)),
+    OppGoalscore = as.numeric(scale(OppGoalAvg, center = TRUE, scale = TRUE)) * -1,
+    OppShotScore = as.numeric(scale(OppShotAvg, center = TRUE, scale = TRUE)) * -1,
+    STzscore = as.numeric(scale(STavg, center = TRUE, scale = TRUE)),
+    OppSTzscore = as.numeric(scale(OppSTavg, center = TRUE, scale = TRUE)) * -1,
+    TotalZscore = ShotZscore + OppGoalscore + OppShotScore + STzscore + OppSTzscore
+  )  </code></pre>
+<p>So the higher the zscore the farther away from the average in a positive aspect a team is.</p>
+<pre class="r"><code>teamzscore %&gt;% arrange(desc(TotalZscore))</code></pre>
+<pre><code>## # A tibble: 35 x 14
+##    HomeTeam  Goalaverage ShotAvg OppGoalAvg OppShotAvg STavg OppSTavg Goalzscore
+##    &lt;chr&gt;           &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;
+##  1 Barcelona        3.17    17.2      0.695       7.96  7.73     2.81     3.40  
+##  2 Real Mad~        3.11    20.6      0.911       9.75  8.52     3.33     3.27  
+##  3 Ath Madr~        1.98    14.7      0.7         9.54  5.61     2.97     1.08  
+##  4 Valencia         1.81    14.7      1.03       10.7   5.49     3.71     0.754 
+##  5 Sevilla          1.93    15.4      1.07       11.1   5.74     3.85     0.979 
+##  6 Villarre~        1.65    13.8      0.982      10.8   5.25     3.54     0.451 
+##  7 Eibar            1.39    13.2      1.18        9.13  4.51     3.48    -0.0658
+##  8 Leganes          1.05    12.0      1.02        9.04  3.79     3.26    -0.722 
+##  9 Tenerife         1.37    16        1.53        9.95  5.47     3.84    -0.107 
+## 10 Ath Bilb~        1.59    13.7      1.05       10.6   4.92     3.73     0.334 
+## # ... with 25 more rows, and 6 more variables: ShotZscore &lt;dbl&gt;,
+## #   OppGoalscore &lt;dbl&gt;, OppShotScore &lt;dbl&gt;, STzscore &lt;dbl&gt;, OppSTzscore &lt;dbl&gt;,
+## #   TotalZscore &lt;dbl&gt;</code></pre>
+<p>In conclusion looking at the stats, Barcelona and Real Madrid have separated themselves from the rest of the league but looking at the rivalry and league overall Barcelona has outperformed Real Madrid. Barcelona have been a lot more clinical when it comes to shooting. More shots doesn’t mean more goals and it has shown thorough these stats. So ove the last 10 years, Barcelona has been the better team.</p>
 
     </div>
   </article>
